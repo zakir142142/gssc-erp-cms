@@ -1,0 +1,27 @@
+<odoo>
+    <template id="student_subject_registration" name="Subject Registration">
+        <div class="container">
+            <h1>Subject Registration</h1>
+            <t t-if="subject_registration">
+                <form method="post" action="/student/subject/submit">
+                    <table>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Type</th>
+                        </tr>
+                        <t t-foreach="subject_registration" t-as="registration">
+                            <tr>
+                                <td><t t-esc="registration.subject_ids.name"/></td>
+                                <td><t t-esc="registration.subject_ids.type"/></td>
+                            </tr>
+                        </t>
+                    </table>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </t>
+            <t t-else="">
+                <p>No subjects available for registration.</p>
+            </t>
+        </div>
+    </template>
+</odoo>

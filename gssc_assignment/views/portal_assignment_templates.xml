@@ -1,0 +1,81 @@
+<odoo>
+    <!-- Add to My Portal Home -->
+    <template id="portal_my_assignments" name="My Assignments"
+             customize_show="True" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Assignments</t>
+                <t t-set="url" t-value="'/my/assignments'"/>
+                <t t-set="placeholder_count" t-value="'assignment_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Assignment List Page -->
+    <template id="portal_assignment_list" name="Assignment List">
+        <t t-call="portal.portal_layout">
+            <t t-set="title">My Assignments</t>
+            <div class="container my-4">
+                <h2 class="mb-3">Assigned Assignments</h2>
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Title</th>
+                            <th>Due Date</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="assigned_assignments" t-as="assign">
+                            <tr>
+                                <td><t t-esc="assign.name"/></td>
+                                <td><t t-esc="assign.submission_date.strftime('%Y-%m-%d %H:%M')"/></td>
+                                <td><t t-esc="assign.description or '-'"/></td>
+                                <td>
+                                    <t t-set="submitted" t-value="False"/>
+                                    <t t-foreach="submissions" t-as="sub">
+                                        <t t-if="sub.assignment_id.id == assign.id">
+                                            <span class="badge badge-success">Submitted</span>
+                                            <t t-set="submitted" t-value="True"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="not submitted">
+                                        <a t-attf-href="/my/assignment/{{ assign.id }}/submit" class="btn btn-sm btn-primary">Submit</a>
+                                    </t>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <!-- Assignment Submission Form -->
+    <template id="portal_assignment_submit_form" name="Submit Assignment">
+        <t t-call="portal.portal_layout">
+            <t t-set="title">Submit Assignment</t>
+            <div class="container my-4">
+                <h2>Submit Assignment: <t t-esc="assignment.name"/></h2>
+
+                <form action="/my/assignment/submit/save" method="POST" enctype="multipart/form-data" class="form mt-4">
+                    <input type="hidden" name="assignment_id" t-att-value="assignment.id"/>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" rows="4" required="required"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Upload File</label>
+                        <input type="file" name="upload_file" class="form-control-file" required="required"/>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success mt-2">Submit Assignment</button>
+                    <a href="/my/assignments" class="btn btn-secondary mt-2">Cancel</a>
+                </form>
+            </div>
+        </t>
+    </template>
+</odoo>

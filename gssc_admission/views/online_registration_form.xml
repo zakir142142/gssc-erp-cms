@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Website Menu -->
+    <record id="menu_registration" model="website.menu">
+        <field name="name">Registration</field>
+        <field name="url">/online_registration</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">55</field>
+    </record>
+    <!--    Registration Form Template-->
+    <template id="registration_form" name="Registration Form">
+        <t t-call="website.layout">
+            <div class="container">
+                <t t-if="error">
+                    <div class="alert alert-danger">
+                        <t t-esc="error"/>
+                    </div>
+                </t>
+                <form action="/submit_registration" method="post">
+                    <div class="form-group">
+                        <label for="course">Course</label>
+                        <select name="course_id" id="course_id" class="form-control" required="required">
+                            <t t-foreach="courses" t-as="course">
+                                <option t-att-value="course.id">
+                                    <t t-esc="course.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="first_name">First Name</label>
+                        <input type="text" name="first_name" class="form-control" required="required"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="middle_name">Middle Name</label>
+                        <input type="text" name="middle_name" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" required="required"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div>
+                            <input type="radio" name="gender" value="m"/>
+                            Male
+                            <input type="radio" name="gender" value="f"/>
+                            Female
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control"
+                               required="required"/>  <!-- This should be present -->
+                    </div>
+                    <!-- Add other fields for gender, birth_date, etc. -->
+                    <div class="form-group">
+                        <label for="birth_date">Date of Birth</label>
+                        <input type="date" name="birth_date" class="form-control" required="required"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="register_id">Admission Register</label>
+                        <select name="register_id" id="register_id" class="form-control" required="required">
+                            <t t-foreach="registers" t-as="register">
+                                <option t-att-value="register.id">
+                                    <t t-esc="register.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country_id">Country</label>
+                        <select name="country_id" id="country_id" class="form-control">
+                            <t t-foreach="countries" t-as="country">
+                                <option t-att-value="country.id">
+                                    <t t-esc="country.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </t>
+    </template>
+    <!-- Success Page Template -->
+    <template id="registration_success" name="Registration Success">
+        <t t-call="website.layout">
+            <div class="container">
+                <h2>Thank you!</h2>
+                <p>Your application has been successfully submitted.</p>
+            </div>
+        </t>
+    </template>
+</odoo>

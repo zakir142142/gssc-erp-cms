@@ -1,0 +1,26 @@
+{
+    'name': 'Gssc ERP',
+    'version': '17.0.1.0',
+    'license': 'LGPL-3',
+    'category': 'Education',
+    "sequence": 3,
+    'summary': 'Manage Students, Faculties and Education Institute',
+    'complexity': "easy",
+    'author': 'Zakir Khan Afridi',
+    'website': 'https://www.gssc.org',
+    'depends': [
+        'gssc_admission',
+        'gssc_assignment',
+        'gssc_attendance',
+        'gssc_library',
+        'gssc_parent',
+        'gssc_exam',
+        'web_gssc',
+    ],
+    'images': [
+        'static/description/gssc_erp_banner.jpg',
+    ],
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}
